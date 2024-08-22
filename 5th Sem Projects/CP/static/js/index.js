@@ -1,26 +1,34 @@
 import { sleep } from "./helpers/utils.js";
 
 let nBars = 10;
+let sortingSpeed = 500; // Default sorting speed
 
 let numbersBars = document.getElementById('numbersBars');
 const stage = document.getElementById('stage');
-console.log('Stage element:', stage);
-stage.style.width = `${nBars * 30}px`;
+stage.style.width = `${nBars * 35}px`; // Adjust width for larger bars
 
 const selectAlgorithm = document.getElementById('selectAlgorithm');
 const generateBtn = document.getElementById('generateBtn');
 const solveBtn = document.getElementById('solveBtn');
+const comparisonDiv = document.getElementById('comparison'); // New element for comparison
+const speedSlider = document.getElementById('speedSlider');
+const speedValue = document.getElementById('speedValue');
+
+// Function to update the speed based on slider value
+speedSlider.addEventListener('input', () => {
+  sortingSpeed = parseInt(speedSlider.value, 10);
+  speedValue.textContent = `${sortingSpeed}ms`;
+});
 
 let bars = [];
 let barsDivs = [];
 
 const start = () => {
-  console.log('Start function called');
   stage.innerHTML = '';
 
   bars = Array(nBars).fill(0).map(_ => {
     return {
-      width: 20,
+      width: 30, // Increased bar width
       height: Math.floor(Math.random() * 200) + 1
     }
   });
@@ -31,14 +39,19 @@ const start = () => {
     const bar = document.createElement('div');
     bar.style.width = `${bars[i].width}px`;
     bar.style.height = `${bars[i].height}px`;
-    bar.style.left = `${5 + i * 30}px`;
+    bar.style.left = `${5 + i * 35}px`; // Adjust left position for larger bars
+
+    const barNumber = document.createElement('div');
+    barNumber.className = 'bar-number';
+    barNumber.textContent = bars[i].height;
+    bar.appendChild(barNumber);
+
     bars[i] = { ...bars[i], position: i };
     bar.classList.add('bar');
     barsDivs.push(bar);
     stage.appendChild(bar);
   }
-  console.log('Bars:', bars);
-  console.log('BarsDivs:', barsDivs);
+  stage.style.background = '#ffafcc'; // Ensure background color is consistent
 }
 
 start();
@@ -52,8 +65,8 @@ async function swapBars(i, j) {
   barsDivs[i].classList.add('activate');
   barsDivs[j].classList.add('activate');
   
-  await sleep(300);
-
+  await sleep(sortingSpeed); // Adjust sorting speed
+  
   barsDivs[i].classList.remove('activate');
   barsDivs[j].classList.remove('activate');
 
@@ -77,6 +90,11 @@ const solve = async () => {
   if (response.ok) {
     const swaps = await response.json();
     for (const swap of swaps) {
+      const firstValue = array[swap.firstPosition];
+      const secondValue = array[swap.lastPosition];
+      const comparisonText = `${firstValue} ${swap.comparisonOperator} ${secondValue}`;
+      comparisonDiv.textContent = `Comparing: ${comparisonText}`;
+      await sleep(sortingSpeed); // Adjust sorting speed
       await swapBars(swap.firstPosition, swap.lastPosition);
     }
   } else {
@@ -85,13 +103,11 @@ const solve = async () => {
 };
 
 generateBtn.addEventListener('click', () => {
-  console.log('Generate button clicked');
   nBars = parseInt(numbersBars.value, 10) || 10;
-  stage.style.width = `${nBars * 30}px`;
+  stage.style.width = `${nBars * 35}px`; // Adjust width for new number of bars
   start();
 });
 
 solveBtn.addEventListener('click', () => {
-  console.log('Solve button clicked');
   solve();
 });
