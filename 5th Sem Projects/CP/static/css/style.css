@@ -1,0 +1,147 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    background: #cde;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Container for sorting visualization and controls */
+  .container {
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  /* Sidebar styling */
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 5px;
+    padding: 10px;
+    align-items: center;
+    width: 200px;
+    height: 300px;
+    background: white;
+  }
+  
+  /* Stage for bars */
+  .stage {
+    display: flex;
+    position: relative;
+    height: 300px;
+    background: #ffafcc;
+    padding: 10px;
+    border-radius: 5px;
+    align-items: flex-end;
+    overflow: hidden; /* Hide horizontal scrollbar */
+  }
+  
+  /* Bar styling */
+  .bar {
+    position: absolute;
+    width: 30px; /* Width of each bar */
+    background: #fff;
+    transition: all 300ms ease-out;
+    border-radius: 6px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  
+  /* Active state for bars during sorting */
+  .bar.activate {
+    background: #65d84e;
+    transition: background-color 300ms ease-out, transform 300ms ease-in-out;
+    animation: upAndDownScale 1.5s ease-in-out;
+  }
+  
+  /* Animation for bars */
+  @keyframes upAndDownScale {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  /* Styling for numbers inside bars */
+  .bar-number {
+    font-size: 12px;
+    color: #000;
+    margin-bottom: 5px;
+  }
+  
+  /* Button styling */
+  button {
+    background: #ea4c89;
+    border-radius: 8px;
+    border-style: none;
+    color: #FFF;
+    cursor: pointer;
+    padding: 5px 16px;
+    margin: 10px;
+  }
+  
+  button:hover {
+    background: #f082ac;
+  }
+  
+  /* Generate new bars section */
+  .generate-new {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #000;
+    padding: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 15px;
+    border-radius: 5px;
+  }
+  
+  /* Input styling */
+  .generate-new input {
+    padding: 2px;
+  }
+  
+  /* Buttons container styling */
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+  }
+  
+  /* Dropdown for selecting algorithm */
+  .select-algorithm {
+    display: flex;
+    flex-direction: column;
+    background: #ffafcc;
+    padding: 5px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+  
+  .select-algorithm select {
+    background: #0563af;
+    color: #fff;
+    padding: 2px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+  }
+  
+  .select-algorithm select option {
+    padding: 5px; /* Adjust padding if necessary */
+  }
