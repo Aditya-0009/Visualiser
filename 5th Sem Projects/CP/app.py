@@ -1,11 +1,31 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request , redirect , url_for
 from algorithms import bubble_sort, selection_sort, quick_sort
 
 app = Flask(__name__)
 
-@app.route('/')
+
+@app.route('/', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        return redirect(url_for('index'))
+    else:
+        return render_template('login.html')
+
+@app.route('/signup')
+def signup():
+    return render_template('signup.html')
+
+from flask import session  # Import session
+
+@app.route('/home', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    # Retrieve username from session
+    username = session.get('username')
+    return render_template('index.html', username=username)  # Pass username to the template
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
 
 @app.route('/sort', methods=['POST'])
 def sort():
